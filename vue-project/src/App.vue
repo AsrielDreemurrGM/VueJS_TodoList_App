@@ -1,4 +1,6 @@
 <script setup>
+import { reactive } from 'vue';
+
 const nome = "Eduardo";
 const meuObj = {
   nome: "Eduardo Augusto",
@@ -24,6 +26,27 @@ const enderecoDaImagemMinecraft = "https://play-lh.googleusercontent.com/27O5tpa
 const conheceMinecraft = false;
 
 const estaAutorizado = true;
+
+// Utilizando Eventos Para Manipular o DOM;
+// Para conseguirmos alterar um valor no HTML no Vue isto não funciona:
+// let contador = 0;
+// Precisamos Criar um Estado da Aplicação;
+const estados = reactive({
+  contador: 0,
+  email: '',
+})
+
+function aumentarContador() {
+  estados.contador++;
+}
+
+function diminuirContador() {
+  estados.contador--;
+}
+
+function alteraEmail(evento) {
+  estados.email = evento.target.value;
+}
 </script>
 
 <template>
@@ -65,6 +88,32 @@ const estaAutorizado = true;
 <h1 v-if="estaAutorizado">Seja Bem-Vindo!</h1>
 <!-- Valor se for "false" -->
 <h1 v-else>Não Possui Acesso.</h1>
+
+<!-- Separando Conteúdo -->
+<br>
+<hr>
+
+<!-- Utilizando Eventos Para Manipular o DOM -->
+<h3>Contador</h3>
+{{ estados.contador }}
+
+<!-- Acessamos Eventos com o "@" -->
+<button @click="aumentarContador" type="button">+</button>
+<button @click="diminuirContador" type="button">-</button>
+
+<!-- Separando Conteúdo -->
+<br>
+<hr>
+
+<!-- Recuperando um Valor de um Input -->
+<h3>Digite um E-mail</h3>
+{{ estados.email }}
+<!-- Utilizamos o "@keyup", pois o "@change" só altera o valor do campo -->
+<!-- quando clicamos fora dele -->
+<!-- Aqui podemos utilizar uma Arrow Function -->
+<!-- <input type="email" @keyup="evento => estados.email = evento.target.value"> -->
+<!-- Para não utilizar uma Arrow Function podemos chamar uma função normal: -->
+<input type="email" @keyup="alteraEmail">
 </template>
 
 <style scoped>
