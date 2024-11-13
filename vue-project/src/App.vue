@@ -34,6 +34,8 @@ const estaAutorizado = true;
 const estados = reactive({
   contador: 0,
   email: '',
+  saldo: 5000,
+  transferindo: 0,
 })
 
 function aumentarContador() {
@@ -46,6 +48,19 @@ function diminuirContador() {
 
 function alteraEmail(evento) {
   estados.email = evento.target.value;
+}
+
+// Estilização Condicional;
+
+function mostraSaldoFuturo() {
+// Utilizamos Desestruturação para Coletar os Valores;
+  const {saldo, transferindo} = estados;
+  return saldo - transferindo;
+}
+
+function temSaldoSuficiente() {
+  const {saldo, transferindo} = estados;
+  return saldo >= transferindo;
 }
 </script>
 
@@ -129,20 +144,34 @@ function alteraEmail(evento) {
 <!-- Aqui podemos utilizar uma Arrow Function -->
 <!-- <input type="email" @keyup="evento => estados.email = evento.target.value"> -->
 <!-- Para não utilizar uma Arrow Function podemos chamar uma função normal: -->
-<input type="email" @keyup="alteraEmail">
+<input type="email" @keyup="alteraEmail()">
 
 <!-- Separando Conteúdo -->
 <br><hr>
 
 <!-- Estilização Condicional -->
-Saldo: {{ estados.saldo }}
-Transferindo: {{ estados.transferindo }}
-Saldo depois da transferência: {{ mostraSaldoFuturo() }}
-<input type="number" placeholder="Quantia para transferir">
+<h3>O Campo Deve Ficar Vermelho se o Valor do Saldo for Insuficiente</h3>
+Saldo: {{ estados.saldo }} <br>
+Transferindo: {{ estados.transferindo }} <br>
+Saldo depois da transferência: {{ mostraSaldoFuturo() }} <br>
+<!-- Para Fazer a Condição Utilizamos as Chaves Simples "{}" Não Duplas "{{ - }}" -->
+<!-- Se a Função "temSaldoSuficiente" Não Retornar "true" Aplica Invalidez-->
+<input :class="{ invalido: !temSaldoSuficiente() }" type="number" 
+  placeholder="Quantidade a Transferir" 
+  @keyup="evento => estados.transferindo = evento.target.value">
+<br>
+<button v-if="temSaldoSuficiente()">Transferir</button>
+<span v-else>Valor Maior que o Saldo Disponível</span>
 </template>
 
 <style scoped>
 img {
   max-width: 200px;
+}
+
+/* Estilização Condicional */
+.invalido {
+  outline-color: red;
+  border-color: red;
 }
 </style>
