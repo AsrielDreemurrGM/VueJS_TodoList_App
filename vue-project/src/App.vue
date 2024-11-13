@@ -58,40 +58,57 @@ function alteraEmail(evento) {
 <!-- Com o VueJS os valores são acessados e processados como se fossem JavaScript -->
 <!-- Então podemos acessa-los das seguintes maneiras: -->
 <!-- Acessando uma Variável -->
-<h1>{{ nome }}</h1>
+<h1>Acessando Váriaveis</h1>
+<h3>{{ nome }}</h3>
 <!-- Realizando um Cálculo Direto -->
-<h1>{{ 10 + 10 }}</h1>
+<h3>{{ 10 + 10 }}</h3>
 <!-- Acessando Propriedade de um Objeto -->
-<h1>{{ meuObj.nome }}</h1>
+<h3>{{ meuObj.nome }}</h3>
 <!-- Acessando Uma Função -->
-<h1>{{ dizOla() }}</h1>
+<h3>{{ dizOla() }}</h3>
 <!-- Adicionando Uma Imagem Via Link Em Uma Variável -->
+<!-- Separando Conteúdo -->
+<br><hr>
+<h1>Acessando Imagem</h1>
 <!-- Não Utilizamos as Chaves "{}", Utilizamos "v-bind:nomeDoAtributo"="variavel" -->
 <!-- Podemos também utilizar um atalho para este comando, ficando assim: ":nomeDoAtributo"="variavel"-->
 <img :src="enderecoDaImagemUndertale" alt="">
+
+<!-- Separando Conteúdo -->
+<br><hr>
+
+<h1>Acessando Botão</h1>
 <!-- Podemos utilizar o v-bind também em botões: -->
 <button :disabled="botaoEstaDesabilitado">Enviar Mensagem</button>
 
+<!-- Separando Conteúdo -->
+<br><hr>
+
 <!-- Renderização Condicional -->
+<h1>Renderizando Imagens Com Renderição Condicional</h1>
 <!-- O Valor está definido como "false", então a imagem não aparece -->
 <img v-if="conheceUndertale" :src="enderecoDaImagemUndertale" alt="">
 <!-- Utilizando o "v-else-if" para Alternar Entre duas Imagens -->
 <img v-else-if="conheceMinecraft" :src="enderecoDaImagemMinecraft" alt="">
 <!-- Utilizando o "v-else" para se Caso Nenhuma das Imagens tiver Valor "true" -->
-<h2 v-else="">Não conhece nenhum dos jogos</h2>
+<h2 v-else="">Não conhece nenhum dos jogos - Ambos valores Como "false", Nenhuma Imagem a Mostrar</h2>
 <!-- Podemos utilizar o "v-show" também para mostrar a imagem -->
 <!-- Porém o "v-show" com o Valor "false" Carrega a Imagem, somente Não Mostra ela -->
 <!-- Enquanto o "v-if" Não Irá Nem Carrega a Imagem no HTML -->
 <img v-show="conheceUndertale" :src="enderecoDaImagemUndertale" alt="">
-<!-- Outro exemplo do "v-if" -->
-<!-- Valor se for "true" -->
-<h1 v-if="estaAutorizado">Seja Bem-Vindo!</h1>
-<!-- Valor se for "false" -->
-<h1 v-else>Não Possui Acesso.</h1>
 
 <!-- Separando Conteúdo -->
-<br>
-<hr>
+<br><hr>
+
+<!-- Outro exemplo do "v-if" -->
+<h1>Verificando Acesso</h1>
+<!-- Valor se for "true" -->
+<h3 v-if="estaAutorizado">Seja Bem-Vindo!</h3>
+<!-- Valor se for "false" -->
+<h3 v-else>Não Possui Acesso.</h3>
+
+<!-- Separando Conteúdo -->
+<br><hr>
 
 <!-- Utilizando Eventos Para Manipular o DOM -->
 <h3>Contador</h3>
@@ -102,8 +119,7 @@ function alteraEmail(evento) {
 <button @click="diminuirContador" type="button">-</button>
 
 <!-- Separando Conteúdo -->
-<br>
-<hr>
+<br><hr>
 
 <!-- Recuperando um Valor de um Input -->
 <h3>Digite um E-mail</h3>
@@ -114,6 +130,15 @@ function alteraEmail(evento) {
 <!-- <input type="email" @keyup="evento => estados.email = evento.target.value"> -->
 <!-- Para não utilizar uma Arrow Function podemos chamar uma função normal: -->
 <input type="email" @keyup="alteraEmail">
+
+<!-- Separando Conteúdo -->
+<br><hr>
+
+<!-- Estilização Condicional -->
+Saldo: {{ estados.saldo }}
+Transferindo: {{ estados.transferindo }}
+Saldo depois da transferência: {{ mostraSaldoFuturo() }}
+<input type="number" placeholder="Quantia para transferir">
 </template>
 
 <style scoped>
