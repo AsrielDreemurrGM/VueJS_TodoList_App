@@ -36,6 +36,8 @@ const estados = reactive({
   email: '',
   saldo: 5000,
   transferindo: 0,
+  nomes: ['Eduardo', 'Jonas', 'Marcos','João'],
+  nomeAInserir: '',
 })
 
 function aumentarContador() {
@@ -62,6 +64,16 @@ function temSaldoSuficiente() {
   const {saldo, transferindo} = estados;
   return saldo >= transferindo;
 }
+
+// Trabalhando com Listas
+function cadastraNome() {
+  if (estados.nomeAInserir.length >= 3) {
+    estados.nomes.push(estados.nomeAInserir);
+  } else {
+    alert('O nome deve ser maior');
+  }
+}
+
 </script>
 
 <template>
@@ -162,6 +174,23 @@ Saldo depois da transferência: {{ mostraSaldoFuturo() }} <br>
 <br>
 <button v-if="temSaldoSuficiente()">Transferir</button>
 <span v-else>Valor Maior que o Saldo Disponível</span>
+
+<!-- Separando Conteúdo -->
+<br><hr>
+
+<!-- Trabalhando com Listas -->
+<!-- Utilizamos a Diretiva "v-for" -->
+<h3>Criando Uma Lista de Nomes</h3>
+  <ul>
+    <li v-for="nome in estados.nomes">
+      {{ nome }}
+    </li>
+  </ul>
+  <input @keyup="evento => estados.nomeAInserir = evento.target.value" type="text" placeholder="Digite um novo nome">
+  <button @click="cadastraNome()" type="button">Cadastrar Nome</button>
+<!-- O "v-for" Serve Para Qualquer Tag -->
+<h3>Criando Uma Lista de Títulos Com os Nomes</h3>
+  <h4 v-for="nome in estados.nomes"> {{ nome }}</h4>
 </template>
 
 <style scoped>
