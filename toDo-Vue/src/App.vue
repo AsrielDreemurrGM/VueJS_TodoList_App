@@ -2,6 +2,7 @@
 import { reactive } from 'vue';
 
   const estados = reactive({
+    filtro: 'todas',
     tarefas: [
       {
         titulo: 'Estudar ES6',
@@ -20,6 +21,25 @@ import { reactive } from 'vue';
 
   const getTarefasPendentes = () => {
     return estados.tarefas.filter(tarefa => !tarefa.finalizada);
+  }
+
+  const getTarefasFinalizadas = () => {
+    return estados.tarefas.filter(tarefa => tarefa.finalizada);
+  }
+
+  const getTarefasFiltradas = () => {
+    // Utilizando Desestruturação;
+    const { filtro } = estados;
+
+    // O "Switch" é Como Vários "if"s;
+    switch (filtro) {
+      case 'pendentes':
+        return getTarefasPendentes();
+      case 'finalizadas':
+        return getTarefasFinalizadas();
+      default:
+        return estados.tarefas;
+    }
   }
 </script>
 
@@ -40,16 +60,16 @@ import { reactive } from 'vue';
           <button type="submit" class="btn btn-primary">Cadastrar</button>
         </div>
         <div class="col-md-2">
-          <select class="form-control">
+          <select @change="evento => estados.filtro = evento.target.value" class="form-control">
             <option value="todas">Todas as Tarefas</option>
-            <option value="pendents">Pendentes</option>
+            <option value="pendentes">Pendentes</option>
             <option value="finalizadas">Finalizadas</option>
           </select>
         </div>
       </div>
     </form>
     <ul class="list-group mt-4">
-      <li class="list-group-item" v-for="tarefa in estados.tarefas">
+      <li class="list-group-item" v-for="tarefa in getTarefasFiltradas()">
         <input :checked="tarefa.finalizada" :id="tarefa.titulo" type="checkbox">
         <label :class="{ finished: tarefa.finalizada}" class="ms-3" :for="tarefa.titulo">
           {{ tarefa.titulo }}
